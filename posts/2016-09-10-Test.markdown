@@ -1,0 +1,91 @@
+---
+titie: Test some basic setup of Hakyll
+---
+
+# Code
+### Haskell
+```haskell
+module R2pipe (R2Context(), open, cmd, cmdj) where
+import Data.Char
+import Data.Word
+import Network.HTTP
+import System.IO
+import System.Process
+import Control.Monad
+import qualified Data.Aeson as JSON
+import qualified Data.ByteString.Lazy as L
+import Control.Arrow
+
+withPipes :: CreateProcess -> CreateProcess
+withPipes p = p { std_in = CreatePipe, std_out = CreatePipe, std_err = CreatePipe }
+
+createProcess' :: CreateProcess -> IO (Handle, Handle, Handle, ProcessHandle)
+createProcess' args = f <$> createProcess (withPipes args) where
+    f (Just i, Just o, Just e, h) = (i, o, e, h)
+    f _ = error "createProcess': Failed to open pipes to the subprocess."
+
+stringToLBS :: String -> L.ByteString
+stringToLBS = L.pack . map (fromIntegral . ord)
+
+lHTakeWhile :: (Word8 -> Bool) -> Handle -> IO L.ByteString
+lHTakeWhile p h = do
+    c <- L.head <$> L.hGet h 1
+    if p c
+        then (c `L.cons`) <$> lHTakeWhile p h
+        else return L.empty
+
+data R2Context = HttpCtx String
+               | LocalCtx (Handle, Handle, Handle, ProcessHandle)
+
+open :: String -> IO R2Context
+open url@('h':'t':'t':'p':_) = return $ HttpCtx (url ++ "/cmd/")
+open filename = do
+    handles@(_, hOut, _, _) <- createProcess' $ proc "r2" ["-q0", filename]
+    void $ lHTakeWhile (/= 0) hOut -- drop the inital null that r2 emits
+    return $ LocalCtx handles
+
+cmd :: R2Context -> String -> IO L.ByteString
+cmd (HttpCtx url) cmd = fmap stringToLBS $ getResponseBody =<< simpleHTTP (getRequest (url ++ urlEncode cmd))
+cmd (LocalCtx (hIn, hOut, _, _)) cmd = hPutStrLn hIn cmd >> hFlush hIn >> lHTakeWhile (/= 0) hOut
+
+cmdj :: R2Context -> String -> IO (Maybe JSON.Value)
+cmdj = (fmap JSON.decode .) . cmd
+```
+
+### Perl
+```perl
+#!/usr/bin/env perl
+
+$contents = "";
+foreach my $i (1..12) {
+    $contents .= sprintf("%x", $i) x12 . "\x05\x00\x00\x00" . "\x0a";
+}
+$contents .= "\xcb\x0a\x84\x0a\x04\x0a\x08\x0a";
+print $contents;
+
+```
+
+### Python
+```python
+def keygen(un):
+    state = ord(un[3]) ^ 0x1337 + 0x5eeded
+    for i, c in enumerate(un):
+        ecx = state ^ ord(c)
+        edx = 0x88233b2b
+        eax = ecx
+        tmp = eax * edx
+        edx = tmp >> 32
+        eax = tmp & 0xffffffff
+        eax = ecx
+        eax -= edx
+        eax = eax >> 1
+        eax += edx
+        eax = eax >> 10
+        eax = eax * 0x539
+        ecx -= eax
+        eax = ecx
+        state += eax
+    return state
+
+print(keygen("abcdef"))
+```
