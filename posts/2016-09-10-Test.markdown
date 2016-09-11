@@ -1,5 +1,5 @@
 ---
-titie: Test some basic setup of Hakyll
+title: Test some basic setup of Hakyll
 ---
 
 # Code
