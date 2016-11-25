@@ -1,6 +1,9 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Monoid ((<>))
+import qualified Data.Text as T
+import qualified Data.ByteString.Lazy.Char8 as LBS
+import qualified Data.Text.Encoding as TE
 import           Hakyll
 
 
@@ -18,8 +21,8 @@ main = hakyllWith defaultConfiguration {
         compile compressCssCompiler
 
     match "js/*" $ do
-        route   idRoute
-        compile copyFileCompiler
+        route   $ setExtension "js.gz"
+        compile $ getResourceBody >>= gzip
 
     match "about.rst" $ do
         route   $ setExtension "html"
@@ -61,3 +64,10 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
+
+gzip :: Item String -> Compiler (Item LBS.ByteString)
+gzip = withItemBody
+           (unixFilterLBS "gzip" ["--best"]
+           . LBS.fromStrict
+           . TE.encodeUtf8
+           . T.pack)
