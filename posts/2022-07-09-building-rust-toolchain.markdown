@@ -210,6 +210,9 @@ compile my rust toolchain.
 Instead I tried first with an existing "tomatoware" toolchain mentioned in the [platform support](https://doc.rust-lang.org/rustc/platform-support/armv7-unknown-linux-uclibceabi.html)
 article. For recent rust versions I do need to combine the info given on that page
 with its sibling page (which is for `uclibchf`) to actually got a "working" rust toolchain with `std`.
+
+# Build the rust toolchain (std)
+
 The process can be summarize below (with my naive understanding):
 
 1. confirm the C toolchain works by actually compile something and run
