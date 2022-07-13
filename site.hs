@@ -20,8 +20,8 @@ main = hakyllWith defaultConfiguration {
         compile compressCssCompiler
 
     match "js/*" $ do
-        route   $ setExtension "js.gz"
-        compile $ getResourceBody >>= gzip
+        route   idRoute
+        compile copyFileCompiler
 
     match "about.rst" $ do
         route   $ setExtension "html"
@@ -59,10 +59,3 @@ postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     defaultContext
-
-gzip :: Item String -> Compiler (Item LBS.ByteString)
-gzip = withItemBody
-           (unixFilterLBS "gzip" ["--best"]
-           . LBS.fromStrict
-           . TE.encodeUtf8
-           . T.pack)
