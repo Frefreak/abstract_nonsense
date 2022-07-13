@@ -6,10 +6,9 @@ import qualified Data.ByteString.Lazy.Char8 as LBS
 import qualified Data.Text.Encoding as TE
 import           Hakyll
 
-
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyllWith defaultConfiguration { 
+main = hakyllWith defaultConfiguration {
     deployCommand = "rsync -av _site root@carso.nz:/usr/share/nginx/html/"
 } $ do
     match "images/*" $ do
@@ -37,10 +36,6 @@ main = hakyllWith defaultConfiguration {
             >>= loadAndApplyTemplate "templates/post.html"    postCtx
             >>= loadAndApplyTemplate "templates/default.html" postCtx
             >>= relativizeUrls
-
-    match "tools/*" $ do
-        route idRoute
-        compile copyFileCompiler
 
     match "index.html" $ do
         route idRoute

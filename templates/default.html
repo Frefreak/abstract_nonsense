@@ -4,30 +4,22 @@
     <title>Abstract Nonsense - $title$</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/syntax.css">
-    <script defer src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
   </head>
   <body>
     <header>
-      <nav class="transparent">
-        <div class="nav-wrapper container">
-          <a href="/" class="brand-logo black-text">Abstract Nonsense</a>
-          <ul class="right hide-on-med-and-down">
-            <li><a href="/about.html" class="blue-text">About</a></li>
-            <!-- <li><a href="/archive.html" class="blue-text">Archive</a></li> -->
-            <li><a href="#" class="blue-text dropdown-button" data-activates='tools' data-hover="true" data-beloworigin="true" data-constrainwidth="false">Tools</a></li>
-          </ul>
-          <ul id='tools' class='dropdown-content'>
-            <li><a href="/tools/jsonFormatter.html">Json Formatter</a></li>
-            <!--<li class="divider"></li>-->
-          </ul>
-        
+      <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="/">Abstract Nonsense</a>
+        </div>
+        <div class="navbar-end">
+          <a class="navbar-item" href="/about.html">About</a>
         </div>
       </nav>
     </header>
+
     <main>
       $body$
     </main>

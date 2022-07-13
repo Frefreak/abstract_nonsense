@@ -167,12 +167,12 @@ But as you can imagine this only works if we suspect it is uclibc in the first p
 
 For cross compiling common targets [cross](https://github.com/cross-rs/cross) is
 a fantastic tools. I tried it for android and some other targets and
-its working great. However as of now it doesn't support the target
+its working great.
+
+However as of now it doesn't support the target
 I want. I think in the future if I'm lazy and just want
 to build and run, I would first try with cross to see if it supports
-the target. Maybe I can look into how `cross` works internally
-and see if its viable to add _arm-xxx-uclibc_ support to it given
-enough momentum.
+the target.
 
 # Build a rust toolchain for real
 
@@ -271,7 +271,7 @@ seems to be worth reading)
 
 One thing I do know is to inspect the binary:
 ```sh
-llvm-readelf -S <file>
+❯ llvm-readelf -S <file>
 ```
 
 ```sh

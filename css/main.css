@@ -1,30 +1,50 @@
-/* fonts */
-@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+}
 
 main {
-  margin-top: 28px;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 div.post h1{
   color: #6e618d;
-  font-size: 36px;
+  font-size: 30px;
   font-family: 'Open Sans', sans-serif;
+  margin-top: 0.7rem;
+  margin-bottom: 0.2rem;
 }
 
 div.post p{
     color: #333333;
     font-family: 'Open Sans', sans-serif;
-    font-size: 15px;
+    margin: 0.7rem;
 }
 
-div.post a{
+div.post a {
   color: #428bca;
   text-decoration: none;
 }
 
-div.info {
-    color: #555;
-    font-size: 14px;
-    font-style: italic;
+div.post ol {
+  margin-left: 2.8rem;
+}
+
+div.post code {
+  font-size: 0.9rem;
+}
+
+div.post div.sourceCode {
+  margin: 0.8rem;
+}
+
+div.post pre {
+  border-radius: 0.5rem;
 }
 
