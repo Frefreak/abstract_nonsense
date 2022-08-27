@@ -219,6 +219,9 @@ The process can be summarize below (with my naive understanding):
 2. `rustc -vV` to get current rust's commit hash and checkout into that
 (I'm not sure if this is really required though, as I know almost nothing about rustc codebase)
 3. modify config.toml inside repo root, make it something like this:
+
+BTW the official [dev guide](https://rustc-dev-guide.rust-lang.org/building/how-to-build-and-run.html) is super helpful.
+
 ```toml
 [build]
 build-stage = 2
